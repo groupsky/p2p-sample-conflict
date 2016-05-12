@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+<head>
+    <meta charset="UTF-8">
+    <title>{{data.value.value || 'Sample'}}</title>
+</head>
+<body>
+
+<!--
+<ul>
+    <li ng-repeat="(branch, commit) in testRepo.branches">
+        <h5>{{branch}} - {{commit}}</h5>
+        <pre>{{testRepo.checkout(commit)|json}}</pre>
+    </li>
+</ul>
+<pre>{{testRepo|json}}</pre>
+-->
+
+<h1>{{data.value.value}}</h1>
+
+<p>If you want to change the message just type it bellow.</p>
+<p><strong>Don't post your passwords!</strong> - the message is shared with all users who use this page.</p>
+<form ng-submit="send(data.newValue); data.newValue = ''">
+    <p>
+        <input type="text" ng-model="data.newValue">
+    </p>
+    <p>
+        <button type="submit">UPDATE</button>
+    </p>
+</form>
+
+<h3>Stats</h3>
+<p>Peers: <strong>{{peers.length}}</strong></p>
+<p>Height: <strong>{{localRepo.get('master').depth}}</strong></p>
+<p>ID: {{data.peerId}}</p>
+
+<h3>History</h3>
+<ul>
+    <li ng-repeat="rev in localRepo.revlist('master').reverse()">
+        {{::localRepo.checkout(rev).value}}
+    </li>
+</ul>
+
+<div style="display: none">
+<h3>branches</h3>
+<ul>
+    <li ng-repeat="(branch, commit) in localRepo.branches">
+        <p>
+            {{branch}} - {{commit}}
+            <code>{{localRepo.checkout(commit)|json}}</code>
+        </p>
+    </li>
+</ul>
+
+<h3>Peers
+    <small>({{peers.length}})</small>
+</h3>
+<ul>
+    <li ng-repeat="peer in peers">
+        <pre>{{peer.id}} - <span branch="{{'remotes/'+peer.id+'/master'}}">{{localRepo.checkout('remotes/'+peer.id+'/master').value}}</span></pre>
+    </li>
+</ul>
+
+<!--<h3>Data</h3>-->
+    <!--<pre>-->
+        <!--{{data|json}}-->
+    <!--</pre>-->
+
+<!--<h3>Local repo</h3>-->
+    <!--<pre>-->
+        <!--{{localRepo|json}}-->
+    <!--</pre>-->
+<!--</div>-->
+
+<script src="scripts.js"></script>
+</body>
+</html>
